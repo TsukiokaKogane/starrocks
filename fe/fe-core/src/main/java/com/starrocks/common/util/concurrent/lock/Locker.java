@@ -38,6 +38,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 public class Locker {
@@ -59,7 +60,13 @@ public class Locker {
     /* The thread that request lock. */
     private final Thread lockerThread;
 
+<<<<<<< HEAD
     private final Map<Long, Long> lastSlowLockLogTimeMap = new HashMap<>();
+=======
+    // The queryId that request lock.
+    // maybe null if not query
+    private UUID queryId;
+>>>>>>> 45952b277c ([Enhancement]Support log slow lock with queryId (#57144))
 
     public Locker() {
         this.waitingForRid = null;
@@ -69,6 +76,11 @@ public class Locker {
         this.lockerThread = Thread.currentThread();
         this.threadId = lockerThread.getId();
         this.threadName = lockerThread.getName();
+    }
+
+    public Locker(UUID queryId) {
+        this();
+        this.queryId = queryId;
     }
 
     /**
@@ -109,6 +121,19 @@ public class Locker {
         }
     }
 
+<<<<<<< HEAD
+=======
+    public void setQueryId(UUID queryID) {
+        this.queryId = queryID;
+    }
+
+    public UUID getQueryId() {
+        return queryId;
+    }
+
+    // --------------- Database locking API ---------------
+
+>>>>>>> 45952b277c ([Enhancement]Support log slow lock with queryId (#57144))
     /**
      * Before the new version of LockManager is fully enabled, it is used to be compatible with the original db lock logic.
      */
